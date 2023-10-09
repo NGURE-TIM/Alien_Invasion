@@ -1,6 +1,6 @@
 # Alien_Invasion
 Welcome to the Alien Invaders project! This project is part of the Python Crash Course, authored by Eric Matthes. In this project, you will create a simple game where you control a spaceship to shoot down alien invaders.
-
+![Game Screenshot](https://github.com/NGURE-TIM/Alien_Invasion/blob/main/images/Screenshot%202023-10-09%20183500.png)
 # Getting Started
 To get started with this project, you'll need Python installed on your computer. If you haven't already installed Python, you can download it from the official Python website: Python.org
 
