@@ -9,7 +9,7 @@ class Alien(Sprite):
         super().__init__()
         self.screen=ai_game.screen
         self.settings=ai_game.settings
-        self.image = pygame.image.load('images\space-removebg-preview.bmp')
+        self.image = pygame.image.load('images\ship-removebg-preview.bmp')
         newheight=50
         newwidth=50
         self.image=pygame.transform.scale(self.image,(newwidth,newheight))
