@@ -27,9 +27,11 @@ class AlienInvasion:
         self._create_fleet()
         self.play_button=Button(self,'Play')
         self.sb=Scoreboard(self)
+      
     def _ship_hit(self):
-         if self.stats.ship_left > 0:
-              self.stats.ship_left -= 1
+         if self.stats.ships_left > 0:
+              self.stats.ships_left -= 1
+              self.sb.prep_ships()
               self.aliens.empty()
               self.bullets.empty()
               self._create_fleet()
@@ -94,6 +96,9 @@ class AlienInvasion:
               
               self.stats.reset_stats()
               self.stats.game_active=True
+              self.sb.prep_score()
+              self.sb.prep_level()
+              self.sb.prep_ships()
               self.aliens.empty()
               self.bullets.empty()
               self._create_fleet()
@@ -119,7 +124,8 @@ class AlienInvasion:
                    self._ship_hit()
                    break
           
-         
+    
+           
           
  
     def _check_fleet_edges(self):
@@ -132,19 +138,15 @@ class AlienInvasion:
         for alien in self.aliens.sprites():
             alien.rect.y += self.settings.fleet_drop_speed
         self.settings.fleet_direction *=-1
+    
     def run_game(self):
         '''Start the main loop for the game.'''
         while True:
             self._check_events()
             if self.stats.game_active:
-                 
                 self.ship.update()
                 self._update_aliens()  
-
-
             self.bullets.update() 
-            
-                  
             self.screen.fill(self.bg_color)
             self.ship.blitme()
             for bullet in self.bullets.sprites(): 
@@ -157,6 +159,17 @@ class AlienInvasion:
                  if bullet.rect.bottom <= 0 :
                       self.bullets.remove(bullet)
             collisions=pygame.sprite.groupcollide(self.bullets,self.aliens,True,True)
+            if not self.aliens:
+                 self.bullets.empty()
+                 self._create_fleet()
+                 self.settings.increase_speed()
+            if collisions:
+                 for aliens in collisions.values():
+                      self.stats.score += self.settings.alien_points * len(aliens)
+                 self.stats.level += 1
+                 self.sb.prep_score()
+                 self.sb.prep_level()
+                 self.sb.check_high_score()
             pygame.display.flip()
     
 if __name__ == '__main__':
